@@ -1,0 +1,18 @@
+<div class="p-6 bg-black text-white min-h-screen" *ngIf="album">
+    <div class="flex gap-6 items-center mb-6">
+        <img [src]="album.cover_xl" alt="Album" class="w-48 rounded" />
+        <div>
+            <h1 class="text-3xl font-bold">{{ album.title }}</h1>
+            <a [routerLink]="['/artist', album.artist.id]" class="text-gray-300 hover:underline">
+                {{ album.artist.name }}
+            </a>
+            <p class="text-gray-500 mt-2">{{ album.release_date }}</p>
+        </div>
+    </div>
+
+    <h2 class="text-2xl font-semibold mb-4">Tracks</h2>
+    <div *ngFor="let track of album.tracks.data" class="border-b border-zinc-700 py-2">
+        <a [routerLink]="['/track', track.id]" class="text-lg hover:underline">{{ track.title }}</a>
+        <audio controls [src]="track.preview" class="mt-2 w-full"></audio>
+    </div>
+</div>
