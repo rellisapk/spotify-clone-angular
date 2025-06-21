@@ -8,7 +8,7 @@ import { DeezerService } from '../../services/deezer';
   selector: 'app-album',
   imports: [CommonModule, RouterModule],
   templateUrl: './album.html',
-  styles: './album.css'
+  styleUrl: './album.css'
 })
 export class Album implements OnInit {
   album: any;

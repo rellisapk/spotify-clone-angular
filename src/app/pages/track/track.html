@@ -8,4 +8,5 @@
     </p>
     <img [src]="track.album.cover_medium" alt="Album cover" class="w-48 mt-4 rounded">
     <audio controls [src]="track.preview" class="mt-4 w-full"></audio>
+    <button (click)="playTrack(track)" class="mt-2 px-3 py-1 bg-green-600 rounded">Play</button>
 </div>

@@ -8,7 +8,7 @@ import { DeezerService } from '../../services/deezer';
   selector: 'app-artist',
   imports: [CommonModule, RouterModule],
   templateUrl: './artist.html',
-  styles: './artist.css'
+  styleUrl: './artist.css'
 })
 export class Artist implements OnInit {
   artist: any;

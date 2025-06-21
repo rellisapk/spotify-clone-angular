@@ -32,4 +32,9 @@ export class DeezerService {
     const url = `${this.baseUrl}/track/${id}?output=jsonp`;
     return this.http.jsonp(url, 'callback');
   }
+
+  getPlaylist(id: number): Observable<any> {
+    const url = `${this.baseUrl}/playlist/${id}?output=jsonp`;
+    return this.http.jsonp(url, 'callback');
+  }
 }

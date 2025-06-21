@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MiniPlayer } from './components/mini-player/mini-player';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, MiniPlayer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

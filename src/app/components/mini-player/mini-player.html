@@ -1,0 +1,12 @@
+<div *ngIf="trackSignal()"
+    class="fixed bottom-0 left-0 right-0 bg-zinc-900 text-white px-4 py-3 flex justify-between items-center shadow-lg z-50">
+    <div>
+        <p class="font-semibold">{{ trackSignal().title }}</p>
+        <p class="text-sm text-gray-400">{{ trackSignal().artist.name }}</p>
+    </div>
+
+    <div class="flex items-center gap-3">
+        <button (click)="togglePlay()" class="px-3 py-1 bg-zinc-700 rounded hover:bg-zinc-600">Play/Pause</button>
+        <button (click)="stop()" class="text-red-400 hover:text-red-300">×</button>
+    </div>
+</div>
