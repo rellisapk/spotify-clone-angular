@@ -1,13 +1,13 @@
-<div class="h-screen flex flex-col bg-zinc-900 text-white">
-    <app-topbar></app-topbar>
+<div class="flex h-screen bg-black text-white">
+    <app-sidebar class="w-64 shrink-0 bg-zinc-900 overflow-y-auto" />
 
-    <div class="flex flex-1 overflow-hidden">
-        <app-sidebar class="w-64 shrink-0 border-r border-zinc-700"></app-sidebar>
+    <div class="flex flex-col flex-1 overflow-hidden">
+        <app-topbar class="sticky top-0 z-10" />
 
-        <div class="flex-1 overflow-auto p-4">
-            <router-outlet></router-outlet>
+        <div class="flex-1 overflow-y-auto scroll-smooth">
+            <router-outlet />
         </div>
-    </div>
 
-    <app-player></app-player>
+        <app-mini-player class="sticky bottom-0 z-10" />
+    </div>
 </div>

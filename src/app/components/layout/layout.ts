@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Player } from '../player/player';
 import { Sidebar } from '../sidebar/sidebar';
 import { Topbar } from '../topbar/topbar';
 import { RouterOutlet } from '@angular/router';
+import { MiniPlayer } from '../mini-player/mini-player';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, Player, Sidebar, Topbar],
+  imports: [RouterOutlet, Sidebar, Topbar, MiniPlayer],
   templateUrl: './layout.html',
   styleUrl: './layout.css'
 })

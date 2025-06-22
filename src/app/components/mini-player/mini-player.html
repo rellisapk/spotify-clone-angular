@@ -1,12 +1,22 @@
-<div *ngIf="trackSignal()"
-    class="fixed bottom-0 left-0 right-0 bg-zinc-900 text-white px-4 py-3 flex justify-between items-center shadow-lg z-50">
-    <div>
-        <p class="font-semibold">{{ trackSignal().title }}</p>
-        <p class="text-sm text-gray-400">{{ trackSignal().artist.name }}</p>
+<div *ngIf="(player.currentTrack$ | async) as track"
+    class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-700 p-4 flex items-center justify-between gap-4 z-50">
+    <!-- 🎵 Info -->
+    <div class="flex items-center gap-4 w-full md:w-1/3">
+        <img [src]="track.album.cover_small" class="w-12 h-12 rounded" />
+        <div>
+            <div class="text-white font-medium text-sm">{{ track.title }}</div>
+            <div class="text-zinc-400 text-xs">
+                <a [routerLink]="['/artist', track.artist.id]" class="hover:underline">{{ track.artist.name }}</a>
+            </div>
+        </div>
     </div>
 
-    <div class="flex items-center gap-3">
-        <button (click)="togglePlay()" class="px-3 py-1 bg-zinc-700 rounded hover:bg-zinc-600">Play/Pause</button>
-        <button (click)="stop()" class="text-red-400 hover:text-red-300">×</button>
+    <!-- 🎚️ Controls -->
+    <div class="flex items-center gap-6 justify-center">
+        <button (click)="player.prev()" class="text-white text-xl hover:text-green-500 transition">⏮️</button>
+        <button (click)="player.toggle()" class="text-white text-2xl hover:scale-110 transition">
+            {{ player.isPlaying ? '⏸️' : '▶️' }}
+        </button>
+        <button (click)="player.next()" class="text-white text-xl hover:text-green-500 transition">⏭️</button>
     </div>
 </div>

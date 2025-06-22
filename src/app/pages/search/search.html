@@ -1,20 +1,28 @@
-<div class="mb-4">
-    <input [(ngModel)]="query" (keyup.enter)="onSearch()" class="w-full px-4 py-2 rounded bg-zinc-800 text-white"
-        placeholder="Search tracks..." />
-</div>
+<div class="p-6">
+    <h2 class="text-xl font-bold text-white mb-4">Search Results</h2>
 
-<div *ngIf="results.length">
-    <div *ngFor="let track of results" class="mb-2 p-2 border-b border-zinc-700">
-        <div class="text-lg font-semibold">
-            <a [routerLink]="['/track', track.id]" class="text-lg font-semibold hover:underline">
-                {{ track.title }}
-            </a>
+    <div *ngIf="results.length > 0; else noResults" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <div *ngFor="let track of results"
+            class="bg-zinc-800 hover:bg-zinc-700 p-4 rounded-xl cursor-pointer transition" (click)="playTrack(track)"
+            [class.bg-zinc-800]="track.id === player.getCurrentTrackId()">
+
+            <img [src]="track.album.cover_medium" class="rounded mb-3 shadow" />
+
+            <div class="text-white font-semibold truncate">{{ track.title }}</div>
+
+            <div class="text-zinc-400 text-sm truncate">
+                <a [routerLink]="['/artist', track.artist.id]" class="hover:underline">
+                    {{ track.artist.name }}
+                </a> •
+                <a [routerLink]="['/album', track.album.id]" class="hover:underline">
+                    {{ track.album.title }}
+                </a>
+            </div>
         </div>
-        <div class="text-sm text-gray-400">
-            <a [routerLink]="['/artist', track.artist.id]" class="hover:underline">
-                {{ track.artist.name }}
-            </a>
-        </div>
-        <audio controls [src]="track.preview" class="mt-1 w-full"></audio>
+
     </div>
+
+    <ng-template #noResults>
+        <p class="text-zinc-500">No results found.</p>
+    </ng-template>
 </div>

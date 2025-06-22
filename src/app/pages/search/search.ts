@@ -3,7 +3,8 @@ import { DeezerService } from '../../services/deezer';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { MiniPlayerService } from '../../services/mini-player';
 
 @Component({
   selector: 'app-search',
@@ -13,15 +14,26 @@ import { RouterModule } from '@angular/router';
   standalone: true,
 })
 export class Search {
-  query = '';
   results: any[] = [];
 
-  constructor(private deezer: DeezerService) { }
+  constructor(
+    private deezer: DeezerService,
+    private route: ActivatedRoute,
+    public player: MiniPlayerService
+  ) { }
 
-  onSearch() {
-    if (!this.query.trim()) return;
-    this.deezer.searchTracks(this.query).subscribe((res: any) => {
-      this.results = res.data;
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const q = params['q'];
+      if (q) {
+        this.deezer.searchTracks(q).subscribe(res => {
+          this.results = res.data;
+        });
+      }
     });
+  }
+
+  playTrack(track: any) {
+    this.player.play(track);
   }
 }

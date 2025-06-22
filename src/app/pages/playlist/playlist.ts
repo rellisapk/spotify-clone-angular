@@ -13,20 +13,28 @@ import { MiniPlayerService } from '../../services/mini-player';
   styleUrl: './playlist.css'
 })
 export class Playlist implements OnInit {
-  playlist: any;
+  playlist: any = null;
 
   constructor(
-    private route: ActivatedRoute,
     private deezer: DeezerService,
-    private player: MiniPlayerService
+    private route: ActivatedRoute,
+    public player: MiniPlayerService
   ) { }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.deezer.getPlaylist(id).subscribe(res => this.playlist = res);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
+
+    this.deezer.getPlaylist(+id).subscribe(res => this.playlist = res);
   }
 
   playTrack(track: any) {
     this.player.play(track);
+  }
+
+  playFirst() {
+    if (this.playlist?.tracks?.data?.length > 0) {
+      this.playTrack(this.playlist.tracks.data[0]);
+    }
   }
 }

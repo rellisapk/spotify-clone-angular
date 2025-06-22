@@ -1,1 +1,9 @@
-<p>topbar works!</p>
+<div class="h-16 px-4 flex items-center justify-between bg-black sticky top-0 z-20 border-b border-zinc-800">
+    <input [(ngModel)]="query" (keyup.enter)="search()" placeholder="What do you want to listen to?"
+        class="bg-zinc-800 text-white text-sm px-4 py-2 rounded-full w-full max-w-lg outline-none focus:ring-1 focus:ring-green-500" />
+
+    <div
+        class="ml-4 w-8 h-8 rounded-full bg-green-500 text-black flex items-center justify-center font-semibold cursor-pointer">
+        R
+    </div>
+</div>

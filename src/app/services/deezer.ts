@@ -37,4 +37,9 @@ export class DeezerService {
     const url = `${this.baseUrl}/playlist/${id}?output=jsonp`;
     return this.http.jsonp(url, 'callback');
   }
+
+  getTopPlaylists(): Observable<any> {
+    const url = `${this.baseUrl}/chart/0/playlists?output=jsonp`;
+    return this.http.jsonp(url, 'callback');
+  }
 }

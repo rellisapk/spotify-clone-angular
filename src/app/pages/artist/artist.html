@@ -1,13 +1,45 @@
-<div class="p-6 bg-black text-white min-h-screen" *ngIf="artist">
-    <div class="mb-6">
-        <img [src]="artist.picture_xl" alt="Artist" class="w-48 rounded-full" />
-        <h1 class="text-3xl font-bold mt-4">{{ artist.name }}</h1>
-        <p class="text-gray-400">{{ artist.nb_fan | number }} fans</p>
+<div *ngIf="artist" class="text-white">
+    <!-- Banner -->
+    <div class="bg-gradient-to-b from-zinc-800 to-black p-6 rounded-b-xl">
+        <div class="flex items-end gap-6">
+            <img [src]="artist.picture_xl" class="w-40 h-40 rounded-full shadow-xl" />
+            <div>
+                <div class="uppercase text-sm text-zinc-400">Artist</div>
+                <h1 class="text-4xl font-bold">{{ artist.name }}</h1>
+                <p class="text-zinc-400 text-sm mt-1">{{ artist.nb_fan | number }} followers</p>
+            </div>
+        </div>
     </div>
 
-    <h2 class="text-2xl font-semibold mb-2">Top Tracks</h2>
-    <div *ngFor="let track of topTracks" class="border-b border-zinc-700 py-2">
-        <a [routerLink]="['/track', track.id]" class="text-lg hover:underline">{{ track.title }}</a>
-        <audio controls [src]="track.preview" class="mt-2 w-full"></audio>
+    <!-- Play button -->
+    <div class="p-6">
+        <button (click)="playTrack(topTracks[0])"
+            class="bg-green-500 text-black font-bold px-5 py-2 rounded-full hover:scale-105 transition"
+            [class.bg-zinc-800]="topTracks[0].id === player.getCurrentTrackId()">
+            Play
+        </button>
+    </div>
+
+    <!-- Top tracks -->
+    <div class="px-6">
+        <h2 class="text-xl font-bold mb-4">Top Tracks</h2>
+        <div class="flex flex-col gap-3">
+            <div *ngFor="let track of topTracks"
+                class="flex items-center justify-between hover:bg-zinc-800 p-3 rounded-lg cursor-pointer"
+                (click)="playTrack(track)" [class.bg-zinc-800]="track.id === player.getCurrentTrackId()">
+                <div class="flex items-center gap-4">
+                    <img [src]="track.album.cover_small" class="w-12 h-12 rounded" />
+                    <div>
+                        <div class="text-white font-medium">{{ track.title }}</div>
+                        <div class="text-sm text-zinc-400"> <a [routerLink]="['/album', track.album.id]"
+                                class="hover:underline">
+                                {{ track.album.title }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-zinc-400 text-sm">{{ track.duration | number }}s</div>
+            </div>
+        </div>
     </div>
 </div>

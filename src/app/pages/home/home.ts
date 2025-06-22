@@ -13,7 +13,7 @@ import { MiniPlayerService } from '../../services/mini-player';
 export class Home implements OnInit {
   recentTracks: any[] = [];
 
-  constructor(private player: MiniPlayerService) { }
+  constructor(public player: MiniPlayerService) { }
 
   ngOnInit(): void {
     this.recentTracks = this.player.getHistory();
@@ -22,5 +22,9 @@ export class Home implements OnInit {
   clear() {
     this.player.clearHistory();
     this.recentTracks = [];
+  }
+
+  playTrack(track: any) {
+    this.player.play(track);
   }
 }

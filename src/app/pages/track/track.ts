@@ -17,7 +17,7 @@ export class Track implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private deezer: DeezerService,
-    private player: MiniPlayerService
+    public player: MiniPlayerService
   ) { }
 
   ngOnInit(): void {
@@ -26,6 +26,6 @@ export class Track implements OnInit {
   }
 
   playTrack(track: any) {
-    this.player.play(track);
+    this.player.play(track, this.track);
   }
 }

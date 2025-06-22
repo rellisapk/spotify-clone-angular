@@ -1,18 +1,57 @@
-<div class="p-6 bg-black text-white min-h-screen" *ngIf="album">
-    <div class="flex gap-6 items-center mb-6">
-        <img [src]="album.cover_xl" alt="Album" class="w-48 rounded" />
+<div *ngIf="album" class="text-white">
+    <!-- Album Header -->
+    <div class="flex flex-col md:flex-row items-end gap-6 bg-gradient-to-b from-zinc-800 to-black p-6 rounded-b-xl">
+        <img [src]="album.cover_xl" class="w-48 h-48 rounded shadow-xl" />
+
         <div>
-            <h1 class="text-3xl font-bold">{{ album.title }}</h1>
-            <a [routerLink]="['/artist', album.artist.id]" class="text-gray-300 hover:underline">
-                {{ album.artist.name }}
-            </a>
-            <p class="text-gray-500 mt-2">{{ album.release_date }}</p>
+            <div class="uppercase text-xs text-zinc-400 font-semibold">Album</div>
+            <h1 class="text-4xl font-bold">{{ album.title }}</h1>
+
+            <div class="text-zinc-400 text-sm mt-2">
+                <a [routerLink]="['/artist', album.artist.id]" class="hover:underline font-medium text-white">
+                    {{ album.artist.name }}
+                </a> •
+                {{ album.release_date }} •
+                {{ album.nb_tracks }} songs
+            </div>
         </div>
     </div>
 
-    <h2 class="text-2xl font-semibold mb-4">Tracks</h2>
-    <div *ngFor="let track of album.tracks.data" class="border-b border-zinc-700 py-2">
-        <a [routerLink]="['/track', track.id]" class="text-lg hover:underline">{{ track.title }}</a>
-        <audio controls [src]="track.preview" class="mt-2 w-full"></audio>
+    <!-- Controls -->
+    <div class="p-6 flex items-center gap-4">
+        <button (click)="playFirst()"
+            class="bg-green-500 text-black px-6 py-2 font-bold rounded-full hover:scale-105 transition">
+            Play
+        </button>
+    </div>
+
+    <!-- Track List -->
+    <div class="px-6">
+        <div class="flex flex-col divide-y divide-zinc-800">
+            <div *ngFor="let track of album.tracks.data; let i = index"
+                class="flex justify-between items-center py-3 hover:bg-zinc-800 px-3 rounded-lg cursor-pointer"
+                (click)="playTrack(track)" [class.bg-zinc-800]="track.id === player.getCurrentTrackId()">
+
+                <div class="flex items-center gap-4">
+                    <div class="w-6 text-right">
+                        <span *ngIf="player.getCurrentTrackId() === track.id" class="text-green-500">🎶</span>
+                        <span *ngIf="player.getCurrentTrackId() !== track.id" class="text-zinc-400">{{ i + 1 }}</span>
+                    </div>
+
+                    <div>
+                        <div class="text-white">{{ track.title }}</div>
+                        <div class="text-sm text-zinc-400">
+                            <a [routerLink]="['/artist', track.artist.id]" class="hover:underline">
+                                {{ track.artist.name }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-zinc-400 text-sm w-12 text-right">
+                    {{ track.duration }}s
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -5,10 +5,44 @@ import { BehaviorSubject } from "rxjs";
 export class MiniPlayerService {
   currentTrack$ = new BehaviorSubject<any>(null);
   private HISTORY_KEY = 'recently_played';
+  queue: any[] = [];
+  currentIndex = -1;
+  currentTrack: any = null;
+  isPlaying: boolean = false;
+  audio: HTMLAudioElement | null = null;
 
-  play(track: any) {
+  play(track: any, queue: any[] = []) {
+    this.queue = queue.length ? queue : [track];
+    this.currentIndex = this.queue.findIndex(t => t.id === track.id);
     this.currentTrack$.next(track);
+    this.currentTrack = track;
     this.addToHistory(track);
+    this.isPlaying = true;
+
+    if (this.audio) this.audio.pause();
+    this.audio = new Audio(track.preview);
+    this.audio.play();
+    this.audio.onended = () => (this.isPlaying = false);
+  }
+
+  next() {
+    if (this.currentIndex < this.queue.length - 1) {
+      this.currentIndex++;
+      const nextTrack = this.queue[this.currentIndex];
+      this.currentTrack$.next(nextTrack);
+      this.addToHistory(nextTrack);
+      this.isPlaying = true;
+    }
+  }
+
+  prev() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      const prevTrack = this.queue[this.currentIndex];
+      this.currentTrack$.next(prevTrack);
+      this.addToHistory(prevTrack);
+      this.isPlaying = true;
+    }
   }
 
   stop() {
@@ -36,4 +70,13 @@ export class MiniPlayerService {
     }
   }
 
+  getCurrentTrackId(): number | null {
+    return this.currentTrack?.id || null;
+  }
+
+  toggle() {
+    if (!this.audio) return;
+    this.isPlaying ? this.audio.pause() : this.audio.play();
+    this.isPlaying = !this.isPlaying;
+  }
 }

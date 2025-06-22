@@ -3,7 +3,11 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        spotify: '#1DB954',
+      },
+    },
   },
   plugins: [],
 }

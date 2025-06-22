@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DeezerService } from '../../services/deezer';
+import { MiniPlayerService } from '../../services/mini-player';
 
 @Component({
   standalone: true,
@@ -11,14 +12,24 @@ import { DeezerService } from '../../services/deezer';
   styleUrl: './artist.css'
 })
 export class Artist implements OnInit {
-  artist: any;
+  artist: any = null;
   topTracks: any[] = [];
 
-  constructor(private route: ActivatedRoute, private deezer: DeezerService) { }
+  constructor(
+    private deezer: DeezerService,
+    private route: ActivatedRoute,
+    public player: MiniPlayerService
+  ) { }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.deezer.getArtist(id).subscribe(res => this.artist = res);
-    this.deezer.getArtistTopTracks(id).subscribe(res => this.topTracks = res.data);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
+
+    this.deezer.getArtist(+id).subscribe(artist => this.artist = artist);
+    this.deezer.getArtistTopTracks(+id).subscribe(top => this.topTracks = top.data.slice(0, 5));
+  }
+
+  playTrack(track: any) {
+    this.player.play(track);
   }
 }
