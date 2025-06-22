@@ -17,7 +17,7 @@ export class Sidebar {
 
   ngOnInit() {
     this.deezer.getTopPlaylists().subscribe((res: any) => {
-      this.playlists = res.data;
+      this.playlists = res.data.slice(0, 5);
     });
   }
 
