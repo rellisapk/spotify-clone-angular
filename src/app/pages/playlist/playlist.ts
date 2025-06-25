@@ -19,17 +19,22 @@ export class Playlist implements OnInit {
     private deezer: DeezerService,
     private route: ActivatedRoute,
     public player: MiniPlayerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) return;
+    // ✅ Listen to route param changes
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (!id) return;
 
-    this.deezer.getPlaylist(+id).subscribe(res => this.playlist = res);
+      this.deezer.getPlaylist(+id).subscribe(res => {
+        this.playlist = res;
+      });
+    });
   }
 
   playTrack(track: any) {
-    this.player.play(track);
+    this.player.play(track, this.playlist?.tracks?.data || []);
   }
 
   playFirst() {
