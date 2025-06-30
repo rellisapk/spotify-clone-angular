@@ -1,0 +1,71 @@
+<div class="text-white">
+    <!-- 🟢 Profile Header -->
+    <div class="flex items-end gap-6 bg-gradient-to-b from-green-700 via-black to-black p-8 rounded-b-2xl">
+        <img [src]="user.avatar" class="w-28 h-28 rounded-full shadow-xl" />
+        <div>
+            <div class="uppercase text-xs text-zinc-300">Profile</div>
+            <h1 class="text-5xl font-bold mt-1">{{ user.name }}</h1>
+            <p class="text-sm text-zinc-400 mt-2">
+                {{ user.followers | number }} followers • {{ user.following | number }} following
+            </p>
+        </div>
+    </div>
+
+    <!-- ❤️ Liked Songs -->
+    <div class="p-8">
+        <h2 class="text-2xl font-bold mb-4">Liked Songs</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div *ngFor="let track of user.likedSongs" (click)="playTrack(track)"
+                class="bg-zinc-900 hover:bg-zinc-800 transition-all rounded-xl p-4 cursor-pointer group">
+                <img [src]="track.album.cover_medium" class="rounded shadow mb-3" />
+                <div class="text-white font-semibold truncate group-hover:underline">
+                    {{ track.title }}
+                </div>
+                <div class="text-sm text-zinc-400 truncate">
+                    {{ track.artist.name }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ➕ Create Playlist -->
+    <div class="px-8">
+        <form (submit)="addPlaylist(); $event.preventDefault()" class="mb-8 flex gap-3 items-center">
+            <input [(ngModel)]="newPlaylistTitle" name="title" placeholder="New Playlist Name"
+                class="bg-zinc-800 text-white px-4 py-2 rounded-full text-sm w-full max-w-xs outline-none focus:ring-2 focus:ring-green-500"
+                required />
+            <button type="submit"
+                class="bg-green-500 hover:bg-green-400 text-black font-semibold px-5 py-2 rounded-full transition">
+                Create
+            </button>
+        </form>
+    </div>
+
+    <!-- 🎧 Your Playlists -->
+    <div class="px-8 pb-10">
+        <h2 class="text-2xl font-bold mb-4">Your Playlists</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div *ngFor="let p of user.playlists" [routerLink]="['/playlist', p.id]"
+                class="bg-zinc-900 hover:bg-zinc-800 transition rounded-xl p-4 cursor-pointer group">
+                <img [src]="p.cover" class="rounded mb-3 shadow" />
+                <div class="text-white font-semibold truncate group-hover:underline">
+                    {{ p.title }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ❤️ Public Liked Playlists -->
+    <div class="px-8 pb-10">
+        <h2 class="text-2xl font-bold mb-4">Liked Public Playlists</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div *ngFor="let p of user.playlists" [routerLink]="['/playlist', p.id]"
+                class="bg-zinc-900 hover:bg-zinc-800 transition rounded-xl p-4 cursor-pointer group">
+                <img [src]="p.cover" class="rounded mb-3 shadow" />
+                <div class="text-white font-semibold truncate group-hover:underline">
+                    {{ p.title }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

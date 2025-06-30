@@ -1,44 +1,53 @@
 <div *ngIf="artist" class="text-white">
-    <!-- Banner -->
-    <div class="bg-gradient-to-b from-zinc-800 to-black p-6 rounded-b-xl">
+    <!-- 🎤 Artist Banner -->
+    <div class="bg-gradient-to-b from-zinc-800 to-black p-8 rounded-b-xl">
         <div class="flex items-end gap-6">
-            <img [src]="artist.picture_xl" class="w-40 h-40 rounded-full shadow-xl" />
+            <img [src]="artist.picture_xl" class="w-40 h-40 rounded-full shadow-2xl object-cover"
+                alt="Artist picture" />
             <div>
-                <div class="uppercase text-sm text-zinc-400">Artist</div>
-                <h1 class="text-4xl font-bold">{{ artist.name }}</h1>
-                <p class="text-zinc-400 text-sm mt-1">{{ artist.nb_fan | number }} followers</p>
+                <div class="uppercase text-sm text-zinc-400 font-semibold mb-1">Artist</div>
+                <h1 class="text-5xl font-bold">{{ artist.name }}</h1>
+                <p class="text-zinc-400 text-sm mt-2">
+                    {{ artist.nb_fan | number }} followers
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- Play button -->
+    <!-- ▶️ Play Button -->
     <div class="p-6">
         <button (click)="playTrack(topTracks[0])"
-            class="bg-green-500 text-black font-bold px-5 py-2 rounded-full hover:scale-105 transition"
+            class="bg-green-500 text-black font-bold text-lg px-6 py-2 rounded-full hover:scale-105 transition"
             [class.bg-zinc-800]="topTracks[0].id === player.getCurrentTrackId()">
             Play
         </button>
     </div>
 
-    <!-- Top tracks -->
-    <div class="px-6">
-        <h2 class="text-xl font-bold mb-4">Top Tracks</h2>
-        <div class="flex flex-col gap-3">
-            <div *ngFor="let track of topTracks"
-                class="flex items-center justify-between hover:bg-zinc-800 p-3 rounded-lg cursor-pointer"
+    <!-- 🔝 Top Tracks -->
+    <div class="px-6 pb-12">
+        <h2 class="text-2xl font-bold mb-4">Top Tracks</h2>
+        <div class="flex flex-col divide-y divide-zinc-800">
+            <div *ngFor="let track of topTracks; let i = index"
+                class="group flex justify-between items-center py-3 px-3 rounded-lg hover:bg-zinc-800 cursor-pointer transition"
                 (click)="playTrack(track)" [class.bg-zinc-800]="track.id === player.getCurrentTrackId()">
-                <div class="flex items-center gap-4">
-                    <img [src]="track.album.cover_small" class="w-12 h-12 rounded" />
-                    <div>
-                        <div class="text-white font-medium">{{ track.title }}</div>
-                        <div class="text-sm text-zinc-400"> <a [routerLink]="['/album', track.album.id]"
-                                class="hover:underline">
+                <!-- Left: Cover + Info -->
+                <div class="flex items-center gap-4 min-w-0">
+                    <img [src]="track.album.cover_small" class="w-12 h-12 rounded shadow-sm" alt="Cover" />
+
+                    <div class="min-w-0">
+                        <div class="text-white font-medium truncate">{{ track.title }}</div>
+                        <div class="text-sm text-zinc-400 truncate">
+                            <a [routerLink]="['/album', track.album.id]" class="hover:underline">
                                 {{ track.album.title }}
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="text-zinc-400 text-sm">{{ track.duration | number }}s</div>
+
+                <!-- Right: Duration -->
+                <div class="text-zinc-400 text-xs w-12 text-right font-mono">
+                    {{ track.duration | duration }}
+                </div>
             </div>
         </div>
     </div>

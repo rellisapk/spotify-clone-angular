@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { DeezerService } from '../../services/deezer';
 import { FormsModule } from '@angular/forms';
 import { MiniPlayerService } from '../../services/mini-player';
+import { DurationPipe } from '../../common/duration.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-playlist',
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, DurationPipe],
   templateUrl: './playlist.html',
   styleUrl: './playlist.css'
 })
@@ -19,7 +20,7 @@ export class Playlist implements OnInit {
     private deezer: DeezerService,
     private route: ActivatedRoute,
     public player: MiniPlayerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // ✅ Listen to route param changes

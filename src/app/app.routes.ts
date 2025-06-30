@@ -6,6 +6,7 @@ import { Album } from './pages/album/album';
 import { Playlist } from './pages/playlist/playlist';
 import { Track } from './pages/track/track';
 import { Layout } from './components/layout/layout';
+import { Profile } from './components/profile/profile';
 
 export const routes: Routes = [
     {
@@ -19,6 +20,7 @@ export const routes: Routes = [
             { path: 'album/:id', component: Album },
             { path: 'playlist/:id', component: Playlist },
             { path: 'track/:id', component: Track },
+            { path: 'user', component: Profile },
         ]
     }
 ];

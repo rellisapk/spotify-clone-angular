@@ -1,13 +1,34 @@
-<div class="p-4 text-white bg-black min-h-screen" *ngIf="track">
-    <h1 class="text-2xl font-bold">{{ track.title }}</h1>
-    <p class="text-gray-400">By {{ track.artist.name }}</p>
-    <p class="mt-2">Album:
-        <a [routerLink]="['/album', track.album.id]" class="text-sm text-gray-400 hover:underline">
-            {{ track.album.title }}
-        </a>
-    </p>
-    <img [src]="track.album.cover_medium" alt="Album cover" class="w-48 mt-4 rounded">
-    <audio controls [src]="track.preview" class="mt-4 w-full"></audio>
-    <button (click)="playTrack(track)" [class.bg-zinc-800]="track.id === player.getCurrentTrackId()"
-        class="mt-2 px-3 py-1 bg-green-600 rounded">Play</button>
+<div class="p-8 bg-black text-white min-h-screen" *ngIf="track">
+    <!-- Track Header -->
+    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+        <img [src]="track.album.cover_medium" alt="Album Cover" class="w-48 h-48 rounded shadow-lg object-cover" />
+
+        <div class="flex-1">
+            <p class="uppercase text-xs text-green-500 font-semibold">Track</p>
+            <h1 class="text-3xl md:text-5xl font-bold mt-1 mb-3">{{ track.title }}</h1>
+
+            <p class="text-sm text-zinc-400 mb-1">
+                Artist:
+                <a [routerLink]="['/artist', track.artist.id]" class="hover:underline">
+                    {{ track.artist.name }}
+                </a>
+            </p>
+
+            <p class="text-sm text-zinc-400 mb-1">
+                Album:
+                <a [routerLink]="['/album', track.album.id]" class="hover:underline">
+                    {{ track.album.title }}
+                </a>
+            </p>
+
+            <div class="mt-4 flex flex-wrap gap-3">
+                <button (click)="playTrack(track)" [class.bg-green-600]="track.id === player.getCurrentTrackId()"
+                    class="bg-green-500 hover:bg-green-600 text-black font-semibold px-6 py-2 rounded-full transition">
+                    {{ track.id === player.getCurrentTrackId() ? 'Playing' : 'Play' }}
+                </button>
+
+                <audio controls [src]="track.preview" class="mt-2 w-full max-w-md bg-zinc-900 rounded"></audio>
+            </div>
+        </div>
+    </div>
 </div>

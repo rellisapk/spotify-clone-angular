@@ -8,17 +8,15 @@
     <!-- 🧭 Menu -->
     <nav class="px-4 text-sm space-y-3 mb-6">
         <a routerLink="/" routerLinkActive="text-white" class="text-zinc-400 hover:text-white block">🏠 Home</a>
-        <a routerLink="/search" routerLinkActive="text-white" class="text-zinc-400 hover:text-white block">🔍 Search</a>
-        <a routerLink="/playlists" routerLinkActive="text-white" class="text-zinc-400 hover:text-white block">🎧 Top
-            Playlists</a>
     </nav>
 
     <!-- 📂 Playlists -->
     <div class="px-4 text-xs uppercase text-zinc-500 mb-2">Playlists</div>
     <div class="flex-1 overflow-y-auto text-sm px-4 space-y-2">
-        <a *ngFor="let p of playlists" [routerLink]="['/playlist', p.id]"
+        <a *ngFor="let p of playlists()" [routerLink]="['/playlist', p.id]"
             class="block truncate text-zinc-400 hover:text-white">
             {{ p.title }}
         </a>
     </div>
+
 </aside>

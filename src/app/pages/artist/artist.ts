@@ -3,11 +3,12 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DeezerService } from '../../services/deezer';
 import { MiniPlayerService } from '../../services/mini-player';
+import { DurationPipe } from '../../common/duration.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-artist',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, DurationPipe],
   templateUrl: './artist.html',
   styleUrl: './artist.css'
 })

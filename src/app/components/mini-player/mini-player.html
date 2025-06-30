@@ -1,22 +1,52 @@
 <div *ngIf="(player.currentTrack$ | async) as track"
-    class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-700 p-4 flex items-center justify-between gap-4 z-50">
-    <!-- 🎵 Info -->
-    <div class="flex items-center gap-4 w-full md:w-1/3">
-        <img [src]="track.album.cover_small" class="w-12 h-12 rounded" />
-        <div>
-            <div class="text-white font-medium text-sm">{{ track.title }}</div>
-            <div class="text-zinc-400 text-xs">
-                <a [routerLink]="['/artist', track.artist.id]" class="hover:underline">{{ track.artist.name }}</a>
+    class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-700 px-4 py-3 flex items-center justify-between z-50">
+    <!-- 🎵 Track Info -->
+    <div class="flex items-center gap-4 w-1/3 min-w-0">
+        <img [src]="track.album.cover_medium" class="w-14 h-14 rounded shadow-md" />
+        <div class="min-w-0">
+            <div class="text-white font-semibold text-sm truncate">{{ track.title }}</div>
+            <div class="text-xs text-zinc-400 truncate">
+                <a [routerLink]="['/artist', track.artist.id]" class="hover:underline">
+                    {{ track.artist.name }}
+                </a>
             </div>
         </div>
     </div>
 
     <!-- 🎚️ Controls -->
     <div class="flex items-center gap-6 justify-center">
-        <button (click)="player.prev()" class="text-white text-xl hover:text-green-500 transition">⏮️</button>
-        <button (click)="player.toggle()" class="text-white text-2xl hover:scale-110 transition">
-            {{ player.isPlaying ? '⏸️' : '▶️' }}
+        <!-- Prev -->
+        <button (click)="player.prev()"
+            class="w-10 h-10 rounded-full bg-zinc-800 hover:bg-zinc-700 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11 18V6L4 12l7 6zM20 6h-2v12h2V6z" />
+            </svg>
         </button>
-        <button (click)="player.next()" class="text-white text-xl hover:text-green-500 transition">⏭️</button>
+
+        <!-- Play / Pause -->
+        <button (click)="player.toggle()"
+            class="w-12 h-12 rounded-full bg-white text-black hover:scale-105 transition flex items-center justify-center">
+            <svg *ngIf="!player.isPlaying" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+            </svg>
+            <svg *ngIf="player.isPlaying" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+            </svg>
+        </button>
+
+        <!-- Next -->
+        <button (click)="player.next()"
+            class="w-10 h-10 rounded-full bg-zinc-800 hover:bg-zinc-700 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13 6v12l7-6-7-6zM4 6h2v12H4V6z" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- 🕒 Info -->
+    <div class="hidden md:block w-1/3 text-right text-xs text-zinc-400 pr-2">
+        <span>Preview only</span>
     </div>
 </div>

@@ -1,46 +1,45 @@
 <div *ngIf="album" class="text-white">
-    <!-- Album Header -->
-    <div class="flex flex-col md:flex-row items-end gap-6 bg-gradient-to-b from-zinc-800 to-black p-6 rounded-b-xl">
-        <img [src]="album.cover_xl" class="w-48 h-48 rounded shadow-xl" />
+    <!-- 🎵 Album Header -->
+    <div class="flex flex-col md:flex-row items-end gap-6 bg-gradient-to-b from-zinc-800 to-black p-8 rounded-b-xl">
+        <img [src]="album.cover_xl" class="w-48 h-48 rounded shadow-xl object-cover" alt="Album cover" />
 
         <div>
             <div class="uppercase text-xs text-zinc-400 font-semibold">Album</div>
-            <h1 class="text-4xl font-bold">{{ album.title }}</h1>
+            <h1 class="text-5xl font-bold mt-1">{{ album.title }}</h1>
 
-            <div class="text-zinc-400 text-sm mt-2">
-                <a [routerLink]="['/artist', album.artist.id]" class="hover:underline font-medium text-white">
+            <div class="text-zinc-400 text-sm mt-3">
+                <a [routerLink]="['/artist', album.artist.id]" class="hover:underline text-white font-medium">
                     {{ album.artist.name }}
-                </a> •
-                {{ album.release_date }} •
-                {{ album.nb_tracks }} songs
+                </a>
+                • {{ album.release_date }} • {{ album.nb_tracks }} songs
             </div>
         </div>
     </div>
 
-    <!-- Controls -->
-    <div class="p-6 flex items-center gap-4">
+    <!-- ▶️ Play Button -->
+    <div class="p-6">
         <button (click)="playFirst()"
-            class="bg-green-500 text-black px-6 py-2 font-bold rounded-full hover:scale-105 transition">
+            class="bg-green-500 text-black text-lg px-6 py-2 font-bold rounded-full hover:scale-105 transition">
             Play
         </button>
     </div>
 
-    <!-- Track List -->
-    <div class="px-6">
+    <!-- 🎶 Track List -->
+    <div class="px-6 pb-12">
         <div class="flex flex-col divide-y divide-zinc-800">
             <div *ngFor="let track of album.tracks.data; let i = index"
-                class="flex justify-between items-center py-3 hover:bg-zinc-800 px-3 rounded-lg cursor-pointer"
+                class="flex justify-between items-center py-3 px-3 rounded-lg cursor-pointer hover:bg-zinc-800 group transition"
                 (click)="playTrack(track)" [class.bg-zinc-800]="track.id === player.getCurrentTrackId()">
-
-                <div class="flex items-center gap-4">
+                <!-- Left: Index + Info -->
+                <div class="flex items-center gap-4 min-w-0">
                     <div class="w-6 text-right">
                         <span *ngIf="player.getCurrentTrackId() === track.id" class="text-green-500">🎶</span>
                         <span *ngIf="player.getCurrentTrackId() !== track.id" class="text-zinc-400">{{ i + 1 }}</span>
                     </div>
 
-                    <div>
-                        <div class="text-white">{{ track.title }}</div>
-                        <div class="text-sm text-zinc-400">
+                    <div class="min-w-0">
+                        <div class="text-white font-medium truncate">{{ track.title }}</div>
+                        <div class="text-sm text-zinc-400 truncate">
                             <a [routerLink]="['/artist', track.artist.id]" class="hover:underline">
                                 {{ track.artist.name }}
                             </a>
@@ -48,8 +47,9 @@
                     </div>
                 </div>
 
-                <div class="text-zinc-400 text-sm w-12 text-right">
-                    {{ track.duration }}s
+                <!-- Right: Duration -->
+                <div class="text-zinc-400 text-xs font-mono w-12 text-right">
+                    {{ track.duration | duration }}
                 </div>
             </div>
         </div>

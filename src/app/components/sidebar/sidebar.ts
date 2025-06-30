@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DeezerService } from '../../services/deezer';
 
@@ -10,15 +10,24 @@ import { DeezerService } from '../../services/deezer';
   styleUrl: './sidebar.css'
 })
 export class Sidebar {
+  private deezer = inject(DeezerService);
+  playlists = signal<any[]>([]);
+  platformId = inject(PLATFORM_ID);
 
-  playlists: any[] = [];
-
-  constructor(private deezer: DeezerService) { }
-
-  ngOnInit() {
-    this.deezer.getTopPlaylists().subscribe((res: any) => {
-      this.playlists = res.data.slice(0, 5);
-    });
+  constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.deezer.getTopPlaylists().subscribe({
+        next: (data) => {
+          this.playlists.set(data.data?.slice(0, 5) || []);
+        },
+        error: (err) => {
+          console.error('JSONP Error:', err);
+          this.playlists.set([]);
+        }
+      });
+    } else {
+      console.log('SSR mode, skip Deezer call');
+    }
   }
 
 }
